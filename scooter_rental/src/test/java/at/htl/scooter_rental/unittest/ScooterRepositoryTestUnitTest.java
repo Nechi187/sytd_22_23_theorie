@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -41,5 +46,14 @@ class ScooterRepositoryTestUnitTest {
     void findScooterByModel_Modelid_ManufacturersTest()
     {
         //Keine Ahnung
+    }
+    @Test
+    void getScooterByCountryOrderBySerialNumberTest()
+    {
+        Pageable pageable = PageRequest.of(1,2);
+
+        Page<Scooters> scooters = scooterRepository.getScooterByCountryOrderBySerialNumber("AUT" , pageable);
+                Assertions.assertEquals("123abc",scooters.getContent().get(0).getSerialNumber());
+
     }
 }
